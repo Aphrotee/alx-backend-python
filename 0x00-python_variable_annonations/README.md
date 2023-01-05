@@ -1,1 +1,1 @@
-# Python - Variable Annonations
+# Python - Variable Annotations
