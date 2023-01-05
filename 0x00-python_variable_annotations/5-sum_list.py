@@ -6,6 +6,7 @@ This module provides the function `sum_list`.
 
 import typing
 
+
 def sum_list(input_list: typing.List[float]) -> float:
     """
     This function takes a list input_list of floats
@@ -15,4 +16,3 @@ def sum_list(input_list: typing.List[float]) -> float:
     for value in input_list:
         result += value
     return result
-    
