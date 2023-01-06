@@ -10,9 +10,9 @@ def make_multiplier(multiplier: float) -> typing.Callable[[float], float]:
     """
     This function takes a float multiplier as argument
     """
-    def multiplier(flt: float) -> float:
+    def multiplierFunction(flt: float) -> float:
         """
         This function takes a float flt as argument
         """
         return flt * multiplier
-    return multiplier
+    return multiplierFunction
