@@ -5,11 +5,10 @@ This module provides the function `task_wait_random`
 '''
 
 import asyncio
-import typing
 wait_random = __import__('0-basic_async_syntax').wait_random
 
 
-def task_wait_random(max_delay: int) -> typing.TypeVar('asyncio.Task'):
+def task_wait_random(max_delay: int) -> asyncio.Task:
     '''
     This function  that takes an integer
     max_delay and returns a asyncio.Task
