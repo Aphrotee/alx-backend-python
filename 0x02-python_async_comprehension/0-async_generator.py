@@ -4,12 +4,12 @@
 This module provides the coroutine  async_generator
 '''
 
-from collections.abc import Iterator
+import typing
 import asyncio
 import random
 
 
-async def async_generator() -> Iterator[int]:
+async def async_generator() -> typing.Generator[int, None, None]:
     '''
     This is a coroutine that loops 10 times,
     each time asynchronously wait 1 second,
