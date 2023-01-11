@@ -9,7 +9,7 @@ import asyncio
 import random
 
 
-async def async_generator() -> typing.Generator[int, None, None]:
+async def async_generator() -> typing.Generator[float, None, None]:
     '''
     This is a coroutine that loops 10 times,
     each time asynchronously wait 1 second,
