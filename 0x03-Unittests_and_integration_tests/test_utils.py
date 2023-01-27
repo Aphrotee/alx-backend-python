@@ -4,7 +4,7 @@
 This module supplies the test case `TestAccessNestedMap`
 """
 
-import parameterized
+from parameterized import parameterized
 from typing import (
     Tuple,
     Union,
@@ -24,7 +24,7 @@ from utils import (
 class TestAccessNestedMap(unittest.TestCase):
     """ A Class for testing the function `access_nested_map` """
 
-    @parameterized.parameterized.expand([
+    @parameterized.expand([
         ({'a': 1}, ('a',), 1),
         ({"a": {"b": 2}}, ('a',), {"b": 2}),
         ({"a": {"b": 2}}, ('a', 'b'), 2)
@@ -36,7 +36,7 @@ class TestAccessNestedMap(unittest.TestCase):
         """ Test for `access_nested_map` """
         self.assertEqual(access_nested_map(nested_map, path), result)
 
-    @parameterized.parameterized.expand([
+    @parameterized.expand([
         ({}, ('a',)),
         ({'a': 1}, ('a', 'b'))
     ])
@@ -51,7 +51,7 @@ class TestAccessNestedMap(unittest.TestCase):
 class TestGetJson(unittest.TestCase):
     """ A class for testing the function `get_json` """
 
-    @parameterized.parameterized.expand([
+    @parameterized.expand([
         ("http://example.com", {"payload": True}),
         ("http://holberton.io", {"payload": False})
     ])
