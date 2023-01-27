@@ -5,6 +5,13 @@ This module supplies the test case `TestAccessNestedMap`
 """
 
 import parameterized
+from typing import (
+    Mapping,
+    Sequence,
+    Any,
+    Dict,
+    Callable
+)
 import unittest
 from unittest.mock import patch
 import utils
@@ -19,7 +26,10 @@ class TestAccessNestedMap(unittest.TestCase):
         ({"a": {"b": 2}}, ('a',), {"b": 2}),
         ({"a": {"b": 2}}, ('a', 'b'), 2)
     ])
-    def test_access_nested_map(self, nested_map, path, result):
+    def test_access_nested_map(self,
+                               nested_map: Mapping,
+                               path: Sequence,
+                               result: Any) -> None:
         """ Test for `access_nested_map` """
         self.assertEqual(utils.access_nested_map(nested_map, path), result)
 
@@ -27,7 +37,9 @@ class TestAccessNestedMap(unittest.TestCase):
         ({}, ('a',)),
         ({'a': 1}, ('a', 'b'))
     ])
-    def test_access_nested_map_exception(self, nested_map, path):
+    def test_access_nested_map_exception(self,
+                                        nested_map: Mapping,
+                                        path: Sequence) -> None:
         """ Test for `access_nested_map` exeption """
         with self.assertRaises(KeyError):
             utils.access_nested_map(nested_map, path)
@@ -41,7 +53,10 @@ class TestGetJson(unittest.TestCase):
         ("http://holberton.io", {"payload": False})
     ])
     @patch('utils.requests.get')
-    def test_payload(self, url, payload, mock_get):
+    def test_payload(self,
+                     url: str,
+                     payload: Dict,
+                     mock_get: Callable) -> None:
         """ Test for `get_json` """
         mock_get.return_value.ok = True
         mock_get.return_value.json.return_value = payload
@@ -54,15 +69,16 @@ class TestMemoize(unittest.TestCase):
 
     class TestClass:
 
-        def a_method(self):
+        def a_method(self) -> int:
             return 42
 
         @memoize
-        def a_property(self):
+        def a_property(self) -> int:
             return self.a_method()
 
     @patch('test_utils.TestMemoize.TestClass.a_method')
-    def test_memoize(self, mock_method):
+    def test_memoize(self,
+                     mock_method: Callable) -> None:
         """ Test for `memoize` """
         mock_method.return_value = self.TestClass.a_method
         testClass = self.TestClass()
