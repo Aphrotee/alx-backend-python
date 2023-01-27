@@ -7,7 +7,7 @@ This module supplies the test case `TestAccessNestedMap`
 import parameterized
 from typing import (
     Tuple,
-    Any,
+    Union,
     Dict,
     Callable
 )
@@ -32,7 +32,7 @@ class TestAccessNestedMap(unittest.TestCase):
     def test_access_nested_map(self,
                                nested_map: Dict,
                                path: Tuple[str],
-                               result: Any) -> None:
+                               result: Union[Dict, int]) -> None:
         """ Test for `access_nested_map` """
         self.assertEqual(access_nested_map(nested_map, path), result)
 
@@ -41,8 +41,8 @@ class TestAccessNestedMap(unittest.TestCase):
         ({'a': 1}, ('a', 'b'))
     ])
     def test_access_nested_map_exception(self,
-                                        nested_map: Dict,
-                                        path: Tuple[str]) -> None:
+                                         nested_map: Dict,
+                                         path: Tuple[str]) -> None:
         """ Test for `access_nested_map` exeption """
         with self.assertRaises(KeyError):
             access_nested_map(nested_map, path)
