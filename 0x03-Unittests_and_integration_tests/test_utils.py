@@ -6,16 +6,19 @@ This module supplies the test case `TestAccessNestedMap`
 
 import parameterized
 from typing import (
-    Mapping,
-    Sequence,
+    Tuple,
     Any,
     Dict,
     Callable
 )
 import unittest
 from unittest.mock import patch
-import utils
-from utils import memoize
+
+from utils import (
+    access_nested_map,
+    get_json,
+    memoize,
+)
 
 
 class TestAccessNestedMap(unittest.TestCase):
@@ -27,22 +30,22 @@ class TestAccessNestedMap(unittest.TestCase):
         ({"a": {"b": 2}}, ('a', 'b'), 2)
     ])
     def test_access_nested_map(self,
-                               nested_map: Mapping,
-                               path: Sequence,
+                               nested_map: Dict,
+                               path: Tuple[str],
                                result: Any) -> None:
         """ Test for `access_nested_map` """
-        self.assertEqual(utils.access_nested_map(nested_map, path), result)
+        self.assertEqual(access_nested_map(nested_map, path), result)
 
     @parameterized.parameterized.expand([
         ({}, ('a',)),
         ({'a': 1}, ('a', 'b'))
     ])
     def test_access_nested_map_exception(self,
-                                        nested_map: Mapping,
-                                        path: Sequence) -> None:
+                                        nested_map: Dict,
+                                        path: Tuple[str]) -> None:
         """ Test for `access_nested_map` exeption """
         with self.assertRaises(KeyError):
-            utils.access_nested_map(nested_map, path)
+            access_nested_map(nested_map, path)
 
 
 class TestGetJson(unittest.TestCase):
@@ -60,7 +63,7 @@ class TestGetJson(unittest.TestCase):
         """ Test for `get_json` """
         mock_get.return_value.ok = True
         mock_get.return_value.json.return_value = payload
-        self.assertEqual(utils.get_json(url), payload)
+        self.assertEqual(get_json(url), payload)
         mock_get.assert_called_once()
 
 
