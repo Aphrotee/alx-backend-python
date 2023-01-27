@@ -12,7 +12,7 @@ from typing import (
     Callable
 )
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 
 from utils import (
     access_nested_map,
@@ -59,9 +59,11 @@ class TestGetJson(unittest.TestCase):
                      test_url: str,
                      test_payload: Dict) -> None:
         """ Test for `get_json` """
-        with patch('utils.requests.get') as mock_get:
-            mock_get.return_value.ok = True
-            mock_get.return_value.json.return_value = test_payload
+        attrs = {'json.return_value': test_payload}
+        with patch('utils.requests.get',
+                   return_value=Mock(**attrs)) as mock_get:
+            # mock_get.return_value.ok = True
+            # mock_get.return_value.json.return_value = test_payload
             self.assertEqual(get_json(test_url), test_payload)
             mock_get.assert_called_once_with(test_url)
 
