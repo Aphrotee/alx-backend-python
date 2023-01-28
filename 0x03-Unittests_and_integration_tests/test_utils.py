@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 """
-This module supplies the test case `TestAccessNestedMap`
+This module supplies the test cases `TestAccessNestedMap`,
+`TestGetJson` and `TestMemoize`
 """
 
 from parameterized import parameterized
