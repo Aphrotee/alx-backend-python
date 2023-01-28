@@ -5,6 +5,7 @@ This module provides test cases `TestGithubOrgClient`
 """
 
 from client import GithubOrgClient
+from fixtures import TEST_PAYLOAD
 from typing import (
     Callable
 )
@@ -15,8 +16,10 @@ from unittest.mock import (
     PropertyMock,
     Mock
 )
-from utils import get_json
-from parameterized import parameterized
+from parameterized import (
+    parameterized,
+    parameterized_class
+)
 
 
 class TestGithubOrgClient(TestCase):
@@ -81,6 +84,50 @@ class TestGithubOrgClient(TestCase):
         """ Test for `has_license` """
         git = GithubOrgClient('aphrotee')
         self.assertEqual(git.has_license(repo, license_key), response)
+
+
+@parameterized_class([
+    {
+        'org_payload': TEST_PAYLOAD[0][0],
+        'repos_payload': TEST_PAYLOAD[0][1],
+        'expected_repos': TEST_PAYLOAD[0][2],
+        'apache2_repos': TEST_PAYLOAD[0][3]
+    }
+])
+class TestIntegrationGithubOrgClient(TestCase):
+    """A class for GithubOrgClient Integration test"""
+
+    @classmethod
+    def setUpClass(cls):
+        """
+        Mocks requests.get to return example
+        payloads found in the fixtures
+        """
+        def sideEffect(url):
+            """ Side Effect """
+            url = url.split('/')
+            if url[len(url) - 1] == 'repos':
+                return Mock(**{'json.return_value': cls.repos_payload})
+            return Mock(**{'json.return_value': cls.org_payload})
+
+        cls.get_patcher = patch('utils.requests.get', side_effect=sideEffect)
+        cls.get_patcher.start()
+
+    def test_public_repos(self):
+        """ Test for `public_repos` """
+        git = GithubOrgClient('google')
+        self.assertListEqual(git.public_repos(), self.expected_repos)
+
+    def test_public_repos_with_license(self):
+        """ Test for `public_repos` with license """
+        git = GithubOrgClient('google')
+        license = "apache-2.0"
+        self.assertListEqual(git.public_repos(license), self.apache2_repos)
+
+    @classmethod
+    def tearDownClass(cls):
+        """ Stop patcher """
+        cls.get_patcher.stop()
 
 
 if __name__ == '__main__':

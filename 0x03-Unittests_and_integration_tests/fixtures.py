@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+'''side_effect = lambda x: sideEffect(x)'''
 TEST_PAYLOAD = [
   (
     {"repos_url": "https://api.github.com/orgs/google/repos"},
